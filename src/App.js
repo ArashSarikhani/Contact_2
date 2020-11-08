@@ -1,25 +1,100 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import { Drawer, Button } from 'antd';
+import "./App.css"
+import Login from "./Component/Login.js"
+import Signup from './Component/Signup.js'
+import Profile from './Component/Profile.js'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+
+class App extends Component {
+  state={
+    visible:false
+  }
+  showDrawer = () => {
+    this.setState({
+      visible: true
+    });
+  };
+  onClose = () => {
+    this.setState({
+      visible: false
+    })
+  };
+  render() {
+    return (
+      <>
+        <Router>
+        <div className="main">
+          <Button type="primary" onClick={this.showDrawer}>
+            let's start
+          </Button>
+        </div>
+        {/* <div
+          style={{
+            width:'100%',
+            height:'100%',
+            display:'flex',
+            alignItems: 'center',
+            justifyContent: "center",
+            
+
+          }}
+        > 
+
+          <h1
+            style={{
+              color: '#1890ff'
+            }}
+          >Welcome <br/>Please Click Start Button!</h1>
+        </div> */}
+        
+        
+        <Drawer
+          title="Basic Drawer"
+          placement="right"
+          closable={false}
+          onClose={this.onClose}
+          visible={this.state.visible}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <ul>
+            <li>
+              <Link onClick={this.onClose} to="/">Home</Link>
+            </li>
+            <li>
+              <Link onClick={this.onClose} to="/Login">Login</Link>
+            </li>
+            <li>
+              <Link onClick={this.onClose} to="/Signup">Signup</Link>
+            </li>
+            <li>
+              <Link onClick={this.onClose} to="/Profile">Profile</Link>
+            </li>
+          </ul>
+        </Drawer>
+
+        <Switch>
+          <Route path="/Login">
+            <Login/>
+          </Route>
+          <Route path="/Signup">
+            <Signup/>
+          </Route>
+          <Route path="/Profile">
+            <Profile/>
+          </Route>
+        </Switch>
+        
+        </Router>
+      </>
+    );
+  }
 }
 
 export default App;
+
